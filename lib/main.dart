@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:walkway_mobile/pages/auth/register.dart';
+import 'package:walkway_mobile/pages/home/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +20,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: GoogleFonts.montserratTextTheme(),
       ),
-      initialRoute: '/register',
+      initialRoute: '/home',
       routes: {
+        '/home': (context) => HomePage(),
         '/register': (context) => RegisterPage(),
       },
     );
