@@ -129,7 +129,9 @@ class _HomePageState extends State<HomePage> {
                           (index) => SizedBox(
                             width: MediaQuery.of(context).size.width / 2.2,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(context, '/product');
+                              },
                               borderRadius: BorderRadius.circular(6),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -192,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                                       'Rp 1,100,000',
                                       style: const TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.w800,
+                                        fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
                                     )
@@ -323,105 +325,6 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  // SingleChildScrollView(
-                  //   scrollDirection: Axis.horizontal,
-                  //   child: Row(
-                  //     children: [
-                  //       SizedBox(width: 16),
-                  //       ...List.generate(
-                  //         3,
-                  //         (index) => SizedBox(
-                  //           width: MediaQuery.of(context).size.width / 2.2,
-                  //           child: InkWell(
-                  //             onTap: () {},
-                  //             borderRadius: BorderRadius.circular(6),
-                  //             child: Container(
-                  //               padding: const EdgeInsets.symmetric(
-                  //                   horizontal: 10, vertical: 8),
-                  //               child: Column(
-                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                 children: [
-                  //                   Container(
-                  //                     decoration: BoxDecoration(
-                  //                       borderRadius: BorderRadius.all(
-                  //                           Radius.circular(10)),
-                  //                     ),
-                  //                     child: Column(
-                  //                       crossAxisAlignment:
-                  //                           CrossAxisAlignment.start,
-                  //                       children: [
-                  //                         Container(
-                  //                             decoration: BoxDecoration(
-                  //                                 color: Color(0xff0B251C),
-                  //                                 borderRadius:
-                  //                                     BorderRadius.only(
-                  //                                         topLeft:
-                  //                                             Radius.circular(
-                  //                                                 10),
-                  //                                         topRight:
-                  //                                             Radius.circular(
-                  //                                                 10))),
-                  //                             padding:
-                  //                                 const EdgeInsets.symmetric(
-                  //                                     vertical: 8,
-                  //                                     horizontal: 4),
-                  //                             child: Row(
-                  //                               mainAxisAlignment:
-                  //                                   MainAxisAlignment.center,
-                  //                               children: [
-                  //                                 Text(
-                  //                                   "00 : 00 : 30",
-                  //                                   style: TextStyle(
-                  //                                       color: Colors.white,
-                  //                                       fontSize: 12,
-                  //                                       fontWeight:
-                  //                                           FontWeight.w600),
-                  //                                 ),
-                  //                               ],
-                  //                             )),
-                  //                         ClipRRect(
-                  //                           borderRadius: BorderRadius.only(
-                  //                               bottomLeft: Radius.circular(10),
-                  //                               bottomRight:
-                  //                                   Radius.circular(10)),
-                  //                           child: Image.asset(
-                  //                               'assets/nike-sneakers.png'),
-                  //                         ),
-                  //                       ],
-                  //                     ),
-                  //                   ),
-                  //                   const SizedBox(height: 8),
-                  //                   Text(
-                  //                     'Nike Dunk Low Vintage Green',
-                  //                     style: TextStyle(
-                  //                       fontSize: 14,
-                  //                       fontWeight: FontWeight.w600,
-                  //                       color: Colors.grey[800],
-                  //                       height: 1.2,
-                  //                       letterSpacing: 0.5,
-                  //                     ),
-                  //                     maxLines: 2,
-                  //                     overflow: TextOverflow.ellipsis,
-                  //                   ),
-                  //                   const SizedBox(height: 4),
-                  //                   Text(
-                  //                     'Rp 1,100,000',
-                  //                     style: const TextStyle(
-                  //                       fontSize: 14,
-                  //                       fontWeight: FontWeight.w800,
-                  //                       color: Colors.black,
-                  //                     ),
-                  //                   )
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       SizedBox(width: 16),
-                  //     ],
-                  //   ),
-                  // ),
                   SizedBox(height: 16),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -546,6 +449,42 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        unselectedItemColor: Colors.grey[600], // Color for unselected items
+        selectedFontSize: 14,
+        elevation: 50,
+        unselectedFontSize: 12,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: 0, // Set the initial selected index
+        iconSize: 28, // Increased icon size
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_outline),
+            label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        onTap: (index) {
+          print(index);
+          if (index == 0) {
+            Navigator.pushNamed(context, '/home');
+          }
+          if (index == 3) {
+            Navigator.pushNamed(context, '/profile');
+          }
+        },
       ),
     );
   }
