@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class Wishlist extends StatefulWidget {
+  const Wishlist({super.key});
 
+  @override
+  State<Wishlist> createState() => _WishlistState();
+}
+
+class _WishlistState extends State<Wishlist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +15,7 @@ class Profile extends StatelessWidget {
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           title: Text(
-            'Profile',
+            'Wishlist',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -30,64 +35,146 @@ class Profile extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Container(
-              padding: EdgeInsets.all(16),
-              color: Color(0xffF7F8F8),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey,
-                    child: Icon(Icons.person, color: Colors.white),
-                  ),
-                  SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Gandara Fathurrahman',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'gandufathurv18@gmail.com',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
             Expanded(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                ),
+              child: Center(
                 child: Column(
-                  spacing: 8.0,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
+                    SizedBox(
+                      width: 220,
+                      height: 220,
+                      child: Image.asset('assets/empty-wishlist.png'),
+                    ),
+                    ElevatedButton(
                       onPressed: () {},
-                      child: Row(),
-                    )
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF4A766E),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 8,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        'Add your Wishlist',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Recommended for you",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0,
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.east,
+                          color: Color(0xff939393),
+                        ),
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ...List.generate(
+                          5,
+                          (index) => InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/product');
+                            },
+                            borderRadius: BorderRadius.circular(6),
+                            child: ProductCard(),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
           ],
         ),
         bottomNavigationBar: BottomNavigation());
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  const ProductCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 2 - 18,
+      padding: EdgeInsets.all(8.0),
+      child: Column(
+        spacing: 4.0,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/nike-sneakers.png',
+                ),
+              ),
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.favorite_outline_rounded,
+                    color: Color(0xff939393),
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
+          Text(
+            "Nike Dunk Low Vintage Green",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            "Rp 1,100,000",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -0.2,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -166,13 +253,13 @@ class BottomNavigation extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.newspaper,
-                        color: Color(0xff939393),
+                        Icons.favorite_rounded,
+                        color: Color(0xff242424),
                       ),
                       Text(
-                        "Blogs",
+                        "Wishlist",
                         style: TextStyle(
-                          color: Color(0xff939393),
+                          color: Color(0xff242424),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -194,12 +281,12 @@ class BottomNavigation extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.person_2_rounded,
-                        color: Color(0xff242424),
+                        color: Color(0xff939393),
                       ),
                       Text(
                         "Profile",
                         style: TextStyle(
-                          color: Color(0xff242424),
+                          color: Color(0xff939393),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -214,30 +301,3 @@ class BottomNavigation extends StatelessWidget {
     );
   }
 }
-
-// Widget _buildMenuItem({
-//   required IconData icon,
-//   required String title,
-//   bool isLogout = false,
-// }) {
-//   return Container(
-//     decoration: BoxDecoration(
-//       color: Colors.white,
-//       borderRadius: BorderRadius.circular(8),
-//     ),
-//     child: ListTile(
-//       leading: Icon(
-//         icon,
-//         color: isLogout ? Colors.red : Colors.grey[600],
-//       ),
-//       title: Text(
-//         title,
-//         style: TextStyle(
-//           color: isLogout ? Colors.red : Colors.black,
-//         ),
-//       ),
-//       trailing: isLogout ? null : Icon(Icons.chevron_right),
-//       onTap: () {},
-//     ),
-//   );
-// }

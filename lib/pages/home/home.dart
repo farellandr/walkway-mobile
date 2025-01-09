@@ -202,7 +202,9 @@ class BottomNavigation extends StatelessWidget {
           children: [
             Expanded(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: Column(
@@ -252,7 +254,9 @@ class BottomNavigation extends StatelessWidget {
             ),
             Expanded(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/wishlist');
+                },
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: Column(
@@ -260,11 +264,11 @@ class BottomNavigation extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.newspaper,
+                        Icons.favorite_border_rounded,
                         color: Color(0xff939393),
                       ),
                       Text(
-                        "Blogs",
+                        "Wishlist",
                         style: TextStyle(
                           color: Color(0xff939393),
                           fontWeight: FontWeight.w500,
@@ -277,7 +281,9 @@ class BottomNavigation extends StatelessWidget {
             ),
             Expanded(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: Column(
