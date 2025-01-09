@@ -14,478 +14,485 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            Column(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      child: Row(
+            Navigation(),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 20.0),
+                children: [
+                  Column(
+                    spacing: 8.0,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset('assets/home-banner-1.png'),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Recommended for you",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0,
+                                  letterSpacing: -0.3,
+                                ),
                               ),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              height: 40,
-                              child: const Row(
-                                children: [
-                                  Icon(
-                                    Icons.search,
-                                    color: Color(0xff939393),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Expanded(
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.east,
+                                  color: Color(0xff939393),
+                                ),
+                                onPressed: () {},
+                              )
+                            ],
                           ),
-                          SizedBox(width: 6),
-                          Container(
-                            padding: EdgeInsets.all(12),
-                            child: Icon(
-                              Icons.shopping_bag_outlined,
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                ...List.generate(
+                                  5,
+                                  (index) => InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/product');
+                                    },
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: ProductCard(),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset('assets/home-banner-2.png'),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Aunction",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0,
+                                  letterSpacing: -0.3,
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.east,
+                                  color: Color(0xff939393),
+                                ),
+                                onPressed: () {},
+                              )
+                            ],
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                ...List.generate(
+                                  5,
+                                  (index) => InkWell(
+                                    onTap: () {
+                                      // ignore: avoid_print
+                                      print(index);
+                                    },
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: BidCard(),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    )
-                  ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset('assets/home-banner-3.png'),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Our Collection",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0,
+                                  letterSpacing: -0.3,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  // ignore: avoid_print
+                                  print("See All");
+                                },
+                                child: Text(
+                                  "See All",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12.0,
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Wrap(
+                            children: [
+                              ...List.generate(
+                                6,
+                                (index) => InkWell(
+                                  onTap: () {
+                                    // ignore: avoid_print
+                                    print(index);
+                                  },
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: ProductCard(),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigation(),
+    );
+  }
+}
+
+class BottomNavigation extends StatelessWidget {
+  const BottomNavigation({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: 1,
+          color: Colors.grey[300],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.home_rounded,
+                        color: Color(0xff242424),
+                      ),
+                      Text(
+                        "Home",
+                        style: TextStyle(
+                          color: Color(0xff242424),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Container(
-                  height: 1,
-                  color: Colors.grey[300],
-                ),
-              ],
+              ),
             ),
             Expanded(
-              child: ListView(
-                children: [
-                  SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset('assets/home-banner-1.png'),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.gavel_rounded,
+                        color: Color(0xff939393),
                       ),
-                      itemCount: 8,
-                      itemBuilder: (context, index) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.asset('assets/nike-logo.png'),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              "Recommended for you",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            Icon(Icons.east),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        SizedBox(width: 16),
-                        ...List.generate(
-                          3,
-                          (index) => SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.2,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(context, '/product');
-                              },
-                              borderRadius: BorderRadius.circular(6),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.asset(
-                                                'assets/nike-sneakers.png'),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 8,
-                                          right: 8,
-                                          child: Container(
-                                            height: 36,
-                                            width: 36,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white60,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              icon: Icon(
-                                                Icons.favorite_outline,
-                                                color: Colors.grey[600],
-                                                size: 20,
-                                              ),
-                                              onPressed: () {},
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Nike Dunk Low Vintage Green',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[800],
-                                        height: 1.2,
-                                        letterSpacing: 0.5,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Rp 1,100,000',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                      Text(
+                        "Aunction",
+                        style: TextStyle(
+                          color: Color(0xff939393),
+                          fontWeight: FontWeight.w500,
                         ),
-                        SizedBox(width: 16),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset('assets/home-banner-2.png'),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              "Aunctions",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            Icon(Icons.east),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        SizedBox(width: 16),
-                        ...List.generate(
-                          3,
-                          (index) => SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.2,
-                            child: InkWell(
-                              onTap: () {},
-                              borderRadius: BorderRadius.circular(6),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.asset(
-                                                'assets/nike-sneakers.png'),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          child: Container(
-                                            width: double.infinity,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 4),
-                                            decoration: BoxDecoration(
-                                                color: Color(0xff0B251C),
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(10),
-                                                    topRight:
-                                                        Radius.circular(10))),
-                                            child: Center(
-                                              child: Text(
-                                                '00 : 04 : 30',
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Nike Dunk Low Vintage Green',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[800],
-                                        height: 1.2,
-                                        letterSpacing: 0.5,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Rp 1,100,000',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.newspaper,
+                        color: Color(0xff939393),
+                      ),
+                      Text(
+                        "Blogs",
+                        style: TextStyle(
+                          color: Color(0xff939393),
+                          fontWeight: FontWeight.w500,
                         ),
-                        SizedBox(width: 16),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset('assets/home-banner-3.png'),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Our Collection",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            Text(
-                              "See all",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 14),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Wrap(
-                      children: [
-                        ...List.generate(
-                          4,
-                          (index) => SizedBox(
-                            width: MediaQuery.of(context).size.width / 2 - 16,
-                            child: InkWell(
-                              onTap: () {},
-                              borderRadius: BorderRadius.circular(6),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.asset(
-                                                'assets/nike-sneakers.png'),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 8,
-                                          right: 8,
-                                          child: Container(
-                                            height: 36,
-                                            width: 36,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white60,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              icon: Icon(
-                                                Icons.favorite_outline,
-                                                color: Colors.grey[600],
-                                                size: 20,
-                                              ),
-                                              onPressed: () {},
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Nike Dunk Low Vintage Green',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[800],
-                                        height: 1.2,
-                                        letterSpacing: 0.5,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Rp 1,100,000',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.person_2_rounded,
+                        color: Color(0xff939393),
+                      ),
+                      Text(
+                        "Profile",
+                        style: TextStyle(
+                          color: Color(0xff939393),
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 16),
-                ],
+                ),
               ),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        unselectedItemColor: Colors.grey[600], // Color for unselected items
-        selectedFontSize: 14,
-        elevation: 50,
-        unselectedFontSize: 12,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 0, // Set the initial selected index
-        iconSize: 28, // Increased icon size
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+      ],
+    );
+  }
+}
+
+class BidCard extends StatelessWidget {
+  const BidCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 2 - 18,
+      padding: EdgeInsets.all(8.0),
+      child: Column(
+        spacing: 4.0,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/nike-sneakers.png',
+                ),
+              ),
+              Positioned(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 4.0,
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Color(0xff0B251C),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "00 : 04 : 20",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+          Text(
+            "Nike Dunk Low Vintage Green",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+          Text(
+            "Rp 1,100,000",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -0.2,
+            ),
           ),
         ],
-        onTap: (index) {
-          print(index);
-          if (index == 0) {
-            Navigator.pushNamed(context, '/home');
-          }
-          if (index == 3) {
-            Navigator.pushNamed(context, '/profile');
-          }
-        },
       ),
+    );
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  const ProductCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 2 - 18,
+      padding: EdgeInsets.all(8.0),
+      child: Column(
+        spacing: 4.0,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/nike-sneakers.png',
+                ),
+              ),
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.favorite_outline_rounded,
+                    color: Color(0xff939393),
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
+          Text(
+            "Nike Dunk Low Vintage Green",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            "Rp 1,100,000",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -0.2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Navigation extends StatelessWidget {
+  const Navigation({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spacing: 8.0,
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    spacing: 8.0,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.search,
+                        color: Color(0xff939393),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.shopping_bag_outlined,
+                  color: Color(0xff939393),
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: 1,
+          color: Colors.grey[300],
+        ),
+      ],
     );
   }
 }
