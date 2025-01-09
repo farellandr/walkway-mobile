@@ -54,22 +54,30 @@ class _ProductState extends State<Product> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.favorite_border, color: Colors.black),
+            icon: Icon(
+              Icons.favorite_border_rounded,
+              color: Color(0xff939393),
+            ),
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black),
+            icon: Icon(
+              Icons.shopping_bag_outlined,
+              color: Color(0xff939393),
+            ),
             onPressed: () {},
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
+          preferredSize: Size.fromHeight(1),
           child: Container(
             color: Colors.grey[300],
             height: 1,
@@ -84,7 +92,7 @@ class _ProductState extends State<Product> {
               children: [
                 Container(
                   height: 300,
-                  color: const Color(0xfff5f5f5),
+                  color: Color(0xfff5f5f5),
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: images.length,
@@ -114,115 +122,126 @@ class _ProductState extends State<Product> {
                 ),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 20,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                  child: Row(
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 20.0),
+              child: Column(
+                spacing: 20.0,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _Tag(label: 'Nike', isActive: true),
+                      _Tag(
+                        label: "Nike",
+                        isActive: true,
+                      ),
                       Row(
                         spacing: 8.0,
                         children: [
-                          _Tag(label: 'Casual'),
-                          _Tag(label: 'Sneakers'),
-                          _Tag(label: '+1'),
+                          _Tag(label: "Casual"),
+                          _Tag(label: "Sneakers"),
+                          _Tag(label: "+1"),
                         ],
                       )
                     ],
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    spacing: 2,
+                  Column(
+                    spacing: 8.0,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        'Rp 1,100,000',
+                        style: TextStyle(
+                          fontSize: 24,
+                          letterSpacing: -0.3,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                       Text(
                         'Nike Dunk Low Vintage Green',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey[800],
-                          height: 1.2,
-                          letterSpacing: 0.5,
+                          color: Color(0xff606060),
+                          letterSpacing: -0.3,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Text(
-                        'Rp 1,100,000',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 0.2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                     ],
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        'Select Size',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 16,
-                          ),
-                          ...sizes.map((size) => _SizeOption(
-                                size: size,
-                                isSelected: size == _selectedSize,
-                                onTap: () => _selectSize(size),
-                              ))
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    spacing: 4,
+                  Column(
+                    spacing: .0,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Description',
+                        'Select Size',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          letterSpacing: -0.3,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text(
-                        'Lorem ipsum dolor sit amet consectetur. Turpis sed scelerisque dis diam mi scelerisque integer quam. Diam nulla pretium viverra eget risus mauris dapibus',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey[800],
-                          height: 1.2,
-                          letterSpacing: 0.5,
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ...sizes.map(
+                              (size) => _SizeOption(
+                                size: size,
+                                isSelected: size == _selectedSize,
+                                onTap: () => _selectSize(size),
+                              ),
+                            )
+                          ],
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Related Products",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0,
+                                  letterSpacing: -0.3,
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.east,
+                                  color: Color(0xff939393),
+                                ),
+                                onPressed: () {},
+                              )
+                            ],
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                ...List.generate(
+                                  5,
+                                  (index) => InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/product');
+                                    },
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: ProductCard(),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),
@@ -237,27 +256,28 @@ class _ProductState extends State<Product> {
               child: OutlinedButton(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(8), // Less border radius
                   ),
                 ),
-                child: const Text('Add To Cart'),
+                child:
+                    Text('Add To Cart', style: TextStyle(color: Colors.black)),
               ),
             ),
             Expanded(
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Color(0xff4E7772),
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(8), // Less border radius
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Checkout',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -265,6 +285,64 @@ class _ProductState extends State<Product> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  const ProductCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 2 - 18,
+      padding: EdgeInsets.all(8.0),
+      child: Column(
+        spacing: 4.0,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/nike-sneakers.png',
+                ),
+              ),
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.favorite_outline_rounded,
+                    color: Color(0xff939393),
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
+          Text(
+            "Nike Dunk Low Vintage Green",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            "Rp 1,100,000",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -0.2,
+            ),
+          ),
+        ],
       ),
     );
   }
