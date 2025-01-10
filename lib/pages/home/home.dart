@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:walkway_mobile/helpers/formatter.dart';
+import 'package:walkway_mobile/provider/product_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +13,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+    final products = productProvider.products;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -55,14 +61,81 @@ class _HomePageState extends State<HomePage> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                ...List.generate(
-                                  5,
-                                  (index) => InkWell(
+                                ...products.map(
+                                  (product) => InkWell(
                                     onTap: () {
+                                      Provider.of<ProductProvider>(context,
+                                              listen: false)
+                                          .setSelectedProduct(product);
                                       Navigator.pushNamed(context, '/product');
                                     },
                                     borderRadius: BorderRadius.circular(6),
-                                    child: ProductCard(),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width /
+                                              2 -
+                                          18,
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Column(
+                                        spacing: 4.0,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Stack(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.asset(
+                                                  product.images[0].toString(),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 0.0,
+                                                right: 0.0,
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                    productProvider
+                                                            .isInWishlist(
+                                                                product.id)
+                                                        ? Icons.favorite_rounded
+                                                        : Icons
+                                                            .favorite_outline_rounded,
+                                                    color: productProvider
+                                                            .isInWishlist(
+                                                                product.id)
+                                                        ? Colors.red
+                                                        : Color(0xff939393),
+                                                  ),
+                                                  onPressed: () {
+                                                    productProvider
+                                                        .toggleWishlist(
+                                                            product.id);
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            product.fullName,
+                                            style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            Formatter.formatCurrency(
+                                                product.price),
+                                            style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: -0.2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 )
                               ],
@@ -155,15 +228,80 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Wrap(
                             children: [
-                              ...List.generate(
-                                6,
-                                (index) => InkWell(
+                              ...products.map(
+                                (product) => InkWell(
                                   onTap: () {
-                                    // ignore: avoid_print
-                                    print(index);
+                                    Provider.of<ProductProvider>(context,
+                                            listen: false)
+                                        .setSelectedProduct(product);
+                                    Navigator.pushNamed(context, '/product');
                                   },
                                   borderRadius: BorderRadius.circular(6),
-                                  child: ProductCard(),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            18,
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Column(
+                                      spacing: 4.0,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.asset(
+                                                product.images[0].toString(),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: 0.0,
+                                              right: 0.0,
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  productProvider.isInWishlist(
+                                                          product.id)
+                                                      ? Icons.favorite_rounded
+                                                      : Icons
+                                                          .favorite_outline_rounded,
+                                                  color: productProvider
+                                                          .isInWishlist(
+                                                              product.id)
+                                                      ? Colors.red
+                                                      : Color(0xff939393),
+                                                ),
+                                                onPressed: () {
+                                                  productProvider
+                                                      .toggleWishlist(
+                                                          product.id);
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          product.fullName,
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          Formatter.formatCurrency(
+                                              product.price),
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: -0.2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -332,7 +470,7 @@ class BidCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
-                  'assets/nike-sneakers.png',
+                  'assets/images/sneakers/530-ivory-1.png',
                 ),
               ),
               Positioned(
@@ -358,64 +496,6 @@ class BidCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
-          Text(
-            "Nike Dunk Low Vintage Green",
-            style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            "Rp 1,100,000",
-            style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w600,
-              letterSpacing: -0.2,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ProductCard extends StatelessWidget {
-  const ProductCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2 - 18,
-      padding: EdgeInsets.all(8.0),
-      child: Column(
-        spacing: 4.0,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/nike-sneakers.png',
-                ),
-              ),
-              Positioned(
-                top: 0.0,
-                right: 0.0,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.favorite_outline_rounded,
-                    color: Color(0xff939393),
-                  ),
-                  onPressed: () {},
                 ),
               ),
             ],

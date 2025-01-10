@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:walkway_mobile/helpers/formatter.dart';
+import 'package:walkway_mobile/provider/product_provider.dart';
 
 class Product extends StatefulWidget {
   const Product({super.key});
@@ -11,15 +14,6 @@ class _ProductState extends State<Product> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
   String _selectedSize = '4';
-
-  // Example list of image assets
-  final List<String> images = [
-    'assets/nike-sneakers.png',
-    'assets/nike-sneakers-2.png',
-    'assets/nike-sneakers-3.png',
-  ];
-
-  final List<String> sizes = ['4', '4.5', '5', '5.5', '6', '6.5', '7'];
 
   @override
   void initState() {
@@ -51,6 +45,18 @@ class _ProductState extends State<Product> {
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+    final product = productProvider.selectedProduct;
+
+    if (product == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text('Product Not Found')),
+        body: Center(child: Text('No product selected')),
+      );
+    }
+
+    final relatedProducts = productProvider.getRelatedProducts();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -95,11 +101,11 @@ class _ProductState extends State<Product> {
                   color: Color(0xfff5f5f5),
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: images.length,
+                    itemCount: product.images.length,
                     itemBuilder: (context, index) {
                       return Center(
                         child: Image.asset(
-                          images[index],
+                          product.images[index],
                           fit: BoxFit.contain,
                         ),
                       );
@@ -113,7 +119,7 @@ class _ProductState extends State<Product> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      images.length,
+                      product.images.length,
                       (index) => _ImageIndicator(
                         isActive: index == _currentPage,
                       ),
@@ -132,15 +138,18 @@ class _ProductState extends State<Product> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _Tag(
-                        label: "Nike",
+                        label: product.brand.name,
                         isActive: true,
                       ),
                       Row(
                         spacing: 8.0,
                         children: [
-                          _Tag(label: "Casual"),
-                          _Tag(label: "Sneakers"),
-                          _Tag(label: "+1"),
+                          _Tag(label: product.categories[0].name),
+                          _Tag(label: product.categories[1].name),
+                          if (product.categories.length > 2)
+                            _Tag(
+                              label: '+${product.categories.length - 2}',
+                            ),
                         ],
                       )
                     ],
@@ -150,7 +159,7 @@ class _ProductState extends State<Product> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Rp 1,100,000',
+                        Formatter.formatCurrency(product.price),
                         style: TextStyle(
                           fontSize: 24,
                           letterSpacing: -0.3,
@@ -158,7 +167,7 @@ class _ProductState extends State<Product> {
                         ),
                       ),
                       Text(
-                        'Nike Dunk Low Vintage Green',
+                        product.fullName,
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xff606060),
@@ -185,11 +194,12 @@ class _ProductState extends State<Product> {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            ...sizes.map(
+                            ...product.sizes.map(
                               (size) => _SizeOption(
-                                size: size,
-                                isSelected: size == _selectedSize,
-                                onTap: () => _selectSize(size),
+                                size: size.size.toString(),
+                                isSelected:
+                                    size.size.toString() == _selectedSize,
+                                onTap: () => _selectSize(size.size.toString()),
                               ),
                             )
                           ],
@@ -223,14 +233,89 @@ class _ProductState extends State<Product> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                ...List.generate(
-                                  5,
-                                  (index) => InkWell(
+                                ...relatedProducts.map(
+                                  (relatedProduct) => InkWell(
                                     onTap: () {
+                                      Provider.of<ProductProvider>(context,
+                                              listen: false)
+                                          .setSelectedProduct(product);
+                                      setState(() {});
+                                      // _scrollController.animateTo(
+                                      //   0,
+                                      //   duration: Duration(milliseconds: 300),
+                                      //   curve: Curves.easeInOut,
+                                      // );
                                       Navigator.pushNamed(context, '/product');
                                     },
                                     borderRadius: BorderRadius.circular(6),
-                                    child: ProductCard(),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width /
+                                              2 -
+                                          18,
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Column(
+                                        spacing: 4.0,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Stack(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.asset(
+                                                  relatedProduct.images[0],
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 0.0,
+                                                right: 0.0,
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                    productProvider
+                                                            .isInWishlist(
+                                                                relatedProduct
+                                                                    .id)
+                                                        ? Icons.favorite_rounded
+                                                        : Icons
+                                                            .favorite_outline_rounded,
+                                                    color: productProvider
+                                                            .isInWishlist(
+                                                                relatedProduct
+                                                                    .id)
+                                                        ? Colors.red
+                                                        : Color(0xff939393),
+                                                  ),
+                                                  onPressed: () {
+                                                    productProvider
+                                                        .toggleWishlist(
+                                                            relatedProduct.id);
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            relatedProduct.fullName,
+                                            style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            Formatter.formatCurrency(
+                                                relatedProduct.price),
+                                            style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: -0.2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 )
                               ],
