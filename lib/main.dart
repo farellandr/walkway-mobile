@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:walkway_mobile/pages/auth/register.dart';
+import 'package:walkway_mobile/pages/cart/cart.dart';
+import 'package:walkway_mobile/pages/checkout/checkout.dart';
 import 'package:walkway_mobile/pages/home/home.dart';
 import 'package:walkway_mobile/pages/product/product.dart';
 import 'package:walkway_mobile/pages/profile/profile.dart';
@@ -35,6 +37,8 @@ class MyApp extends StatelessWidget {
           '/product': (context) => Product(),
           '/profile': (context) => Profile(),
           '/wishlist': (context) => Wishlist(),
+          '/checkout': (context) => Checkout(),
+          '/cart': (context) => Cart(),
         },
       ),
     );

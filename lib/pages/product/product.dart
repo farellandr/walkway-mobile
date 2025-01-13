@@ -1,6 +1,8 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:walkway_mobile/helpers/formatter.dart';
+import 'package:walkway_mobile/models/size.dart';
 import 'package:walkway_mobile/provider/product_provider.dart';
 
 class Product extends StatefulWidget {
@@ -13,7 +15,7 @@ class Product extends StatefulWidget {
 class _ProductState extends State<Product> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-  String _selectedSize = '4';
+  ProductSize? _selectedSize;
 
   @override
   void initState() {
@@ -37,7 +39,7 @@ class _ProductState extends State<Product> {
     }
   }
 
-  void _selectSize(String size) {
+  void _selectSize(ProductSize size) {
     setState(() {
       _selectedSize = size;
     });
@@ -74,13 +76,28 @@ class _ProductState extends State<Product> {
             ),
             onPressed: () {},
           ),
-          IconButton(
-            icon: Icon(
-              Icons.shopping_bag_outlined,
-              color: Color(0xff939393),
+          badges.Badge(
+            badgeContent: Text(
+              productProvider.cartItem.length.toString(),
+              style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {},
+            badgeAnimation: badges.BadgeAnimation.rotation(),
+            position: badges.BadgePosition.topEnd(top: -5, end: -5),
+            badgeStyle: badges.BadgeStyle(
+              badgeColor: Colors.red,
+            ),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              icon: Icon(
+                Icons.shopping_bag_outlined,
+                color: Color(0xff939393),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/cart');
+              },
+            ),
           ),
+          SizedBox(width: 8),
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
@@ -131,7 +148,6 @@ class _ProductState extends State<Product> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 20.0),
               child: Column(
-                spacing: 20.0,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -142,20 +158,22 @@ class _ProductState extends State<Product> {
                         isActive: true,
                       ),
                       Row(
-                        spacing: 8.0,
                         children: [
                           _Tag(label: product.categories[0].name),
+                          SizedBox(width: 8),
                           _Tag(label: product.categories[1].name),
-                          if (product.categories.length > 2)
+                          if (product.categories.length > 2) ...[
+                            SizedBox(width: 8),
                             _Tag(
                               label: '+${product.categories.length - 2}',
                             ),
+                          ],
                         ],
                       )
                     ],
                   ),
+                  SizedBox(height: 20),
                   Column(
-                    spacing: 8.0,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -166,6 +184,7 @@ class _ProductState extends State<Product> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+                      SizedBox(height: 8),
                       Text(
                         product.fullName,
                         style: TextStyle(
@@ -178,8 +197,8 @@ class _ProductState extends State<Product> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 20),
                   Column(
-                    spacing: .0,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -190,21 +209,23 @@ class _ProductState extends State<Product> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+                      SizedBox(height: 8),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
                             ...product.sizes.map(
                               (size) => _SizeOption(
-                                size: size.size.toString(),
-                                isSelected:
-                                    size.size.toString() == _selectedSize,
-                                onTap: () => _selectSize(size.size.toString()),
+                                size: size,
+                                isSelected: _selectedSize?.id == size.id,
+                                onTap: () => _selectSize(size),
+                                isAvailable: size.stock > 0,
                               ),
                             )
                           ],
                         ),
                       ),
+                      SizedBox(height: 20),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -238,13 +259,8 @@ class _ProductState extends State<Product> {
                                     onTap: () {
                                       Provider.of<ProductProvider>(context,
                                               listen: false)
-                                          .setSelectedProduct(product);
+                                          .setSelectedProduct(relatedProduct);
                                       setState(() {});
-                                      // _scrollController.animateTo(
-                                      //   0,
-                                      //   duration: Duration(milliseconds: 300),
-                                      //   curve: Curves.easeInOut,
-                                      // );
                                       Navigator.pushNamed(context, '/product');
                                     },
                                     borderRadius: BorderRadius.circular(6),
@@ -254,7 +270,6 @@ class _ProductState extends State<Product> {
                                           18,
                                       padding: EdgeInsets.all(8.0),
                                       child: Column(
-                                        spacing: 4.0,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -295,6 +310,7 @@ class _ProductState extends State<Product> {
                                               ),
                                             ],
                                           ),
+                                          SizedBox(height: 4),
                                           Text(
                                             relatedProduct.fullName,
                                             style: TextStyle(
@@ -304,6 +320,7 @@ class _ProductState extends State<Product> {
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
+                                          SizedBox(height: 4),
                                           Text(
                                             Formatter.formatCurrency(
                                                 relatedProduct.price),
@@ -334,32 +351,44 @@ class _ProductState extends State<Product> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Row(
-          spacing: 6,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: _selectedSize == null
+                    ? null
+                    : () {
+                        productProvider.addCartItem(
+                            product.id, _selectedSize!.id);
+                      },
                 style: OutlinedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(8), // Less border radius
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child:
-                    Text('Add To Cart', style: TextStyle(color: Colors.black)),
+                child: Text(
+                  'Add To Cart',
+                  style: TextStyle(
+                    color:
+                        _selectedSize?.stock == 0 ? Colors.grey : Colors.black,
+                  ),
+                ),
               ),
             ),
+            SizedBox(width: 6),
             Expanded(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _selectedSize?.stock == 0
+                    ? null
+                    : () {
+                        Navigator.pushNamed(context, '/checkout');
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff4E7772),
                   padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(8), // Less border radius
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: Text(
@@ -370,64 +399,6 @@ class _ProductState extends State<Product> {
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class ProductCard extends StatelessWidget {
-  const ProductCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2 - 18,
-      padding: EdgeInsets.all(8.0),
-      child: Column(
-        spacing: 4.0,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/nike-sneakers.png',
-                ),
-              ),
-              Positioned(
-                top: 0.0,
-                right: 0.0,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.favorite_outline_rounded,
-                    color: Color(0xff939393),
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ],
-          ),
-          Text(
-            "Nike Dunk Low Vintage Green",
-            style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            "Rp 1,100,000",
-            style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w600,
-              letterSpacing: -0.2,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -479,13 +450,15 @@ class _Tag extends StatelessWidget {
 }
 
 class _SizeOption extends StatelessWidget {
-  final String size;
+  final ProductSize size;
   final bool isSelected;
+  final bool isAvailable;
   final VoidCallback onTap;
 
   const _SizeOption({
     required this.size,
     required this.onTap,
+    required this.isAvailable,
     this.isSelected = false,
   });
 
@@ -494,11 +467,15 @@ class _SizeOption extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 8),
       child: OutlinedButton(
-        onPressed: onTap,
+        onPressed: isAvailable ? onTap : null,
         style: OutlinedButton.styleFrom(
           backgroundColor: isSelected ? Colors.teal : null,
           side: BorderSide(
-            color: isSelected ? Colors.teal : Colors.grey,
+            color: isSelected
+                ? Colors.teal
+                : isAvailable
+                    ? Colors.grey
+                    : Colors.grey.withOpacity(0.3),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
@@ -507,9 +484,13 @@ class _SizeOption extends StatelessWidget {
           minimumSize: const Size(0, 0),
         ),
         child: Text(
-          size,
+          size.size.toString(),
           style: TextStyle(
-            color: isSelected ? Colors.white : Colors.black,
+            color: isSelected
+                ? Colors.white
+                : isAvailable
+                    ? Colors.black
+                    : Colors.grey,
           ),
         ),
       ),

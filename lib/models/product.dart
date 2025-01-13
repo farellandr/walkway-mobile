@@ -8,7 +8,7 @@ class Product {
   final double price;
   final Brand brand;
   final List<Category> categories;
-  final List<Size> sizes;
+  final List<ProductSize> sizes;
   final List<String> images;
 
   Product({
