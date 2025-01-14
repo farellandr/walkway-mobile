@@ -51,9 +51,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                         Expanded(
                           child: TextField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                            ),
+                            decoration:
+                                InputDecoration(border: InputBorder.none),
                           ),
                         )
                       ],
