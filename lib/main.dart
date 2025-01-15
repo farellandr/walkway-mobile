@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:walkway_mobile/presentation/routes/routes.dart';
+import 'package:walkway_mobile/utils/provider.dart';
 
 void main() {
-  // setupProvider();
+  setupProvider();
   runApp(const MyApp());
 }
 

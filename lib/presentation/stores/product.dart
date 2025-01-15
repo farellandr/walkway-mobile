@@ -35,4 +35,20 @@ abstract class _ProductStore with Store {
       isLoading = false;
     }
   }
+
+  @action
+  Future<void> searchProducts(String query) async {
+    isLoading = true;
+    error = null;
+
+    try {
+      final fetchedProducts = await _productService.searchProducts(query);
+      products.clear();
+      products.addAll(fetchedProducts);
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+    }
+  }
 }

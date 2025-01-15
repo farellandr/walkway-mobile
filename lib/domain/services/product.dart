@@ -17,7 +17,17 @@ class ProductService {
     }
   }
 
-  // Future<List<Product>> getSearchedProducts(String search) async {
+  Future<List<Product>> searchProducts(String search) async {
+    try {
+      final response = await dio.get("$baseUrl/product?search=$search");
 
-  // }
+      final products = (response.data['data'] as List)
+          .map((item) => Product.fromJson(item))
+          .toList();
+
+      return products;
+    } catch (e) {
+      throw Exception("Failed to fetch products: $e");
+    }
+  }
 }

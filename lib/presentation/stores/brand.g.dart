@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'product.dart';
+part of 'brand.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,25 +8,24 @@ part of 'product.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$ProductStore on _ProductStore, Store {
-  late final _$productsAtom =
-      Atom(name: '_ProductStore.products', context: context);
+mixin _$BrandStore on _BrandStore, Store {
+  late final _$brandsAtom = Atom(name: '_BrandStore.brands', context: context);
 
   @override
-  ObservableList<Product> get products {
-    _$productsAtom.reportRead();
-    return super.products;
+  ObservableList<Brand> get brands {
+    _$brandsAtom.reportRead();
+    return super.brands;
   }
 
   @override
-  set products(ObservableList<Product> value) {
-    _$productsAtom.reportWrite(value, super.products, () {
-      super.products = value;
+  set brands(ObservableList<Brand> value) {
+    _$brandsAtom.reportWrite(value, super.brands, () {
+      super.brands = value;
     });
   }
 
   late final _$isLoadingAtom =
-      Atom(name: '_ProductStore.isLoading', context: context);
+      Atom(name: '_BrandStore.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -41,7 +40,7 @@ mixin _$ProductStore on _ProductStore, Store {
     });
   }
 
-  late final _$errorAtom = Atom(name: '_ProductStore.error', context: context);
+  late final _$errorAtom = Atom(name: '_BrandStore.error', context: context);
 
   @override
   String? get error {
@@ -56,26 +55,18 @@ mixin _$ProductStore on _ProductStore, Store {
     });
   }
 
-  late final _$fetchProductsAsyncAction =
-      AsyncAction('_ProductStore.fetchProducts', context: context);
+  late final _$fetchBrandsAsyncAction =
+      AsyncAction('_BrandStore.fetchBrands', context: context);
 
   @override
-  Future<void> fetchProducts() {
-    return _$fetchProductsAsyncAction.run(() => super.fetchProducts());
-  }
-
-  late final _$searchProductsAsyncAction =
-      AsyncAction('_ProductStore.searchProducts', context: context);
-
-  @override
-  Future<void> searchProducts(String query) {
-    return _$searchProductsAsyncAction.run(() => super.searchProducts(query));
+  Future<void> fetchBrands() {
+    return _$fetchBrandsAsyncAction.run(() => super.fetchBrands());
   }
 
   @override
   String toString() {
     return '''
-products: ${products},
+brands: ${brands},
 isLoading: ${isLoading},
 error: ${error}
     ''';
