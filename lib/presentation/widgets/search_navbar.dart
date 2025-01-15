@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Navbar extends StatelessWidget implements PreferredSizeWidget {
-  const Navbar({super.key});
+class SearchNavbar extends StatelessWidget implements PreferredSizeWidget {
+  const SearchNavbar({super.key});
 
   EdgeInsets get padding =>
       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0);
@@ -22,6 +22,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
 
     return SafeArea(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             padding: EdgeInsets.only(
@@ -66,7 +67,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           Container(
-            height: 1.0,
+            height: 2.0,
             color: Colors.grey[300],
           )
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:walkway_mobile/presentation/routes/routes.dart';
 
 void main() {
+  // setupProvider();
   runApp(const MyApp());
 }
 
@@ -14,9 +15,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Walkway',
       theme: ThemeData(
-        textTheme: ThemeData(fontFamily: 'Montserrat').textTheme,
-        useMaterial3: true,
         fontFamily: 'Montserrat',
+        useMaterial3: true,
       ),
       initialRoute: '/home',
       routes: customRoutes,

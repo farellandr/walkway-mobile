@@ -16,4 +16,8 @@ class ProductService {
       throw Exception("Failed to fetch products: $e");
     }
   }
+
+  // Future<List<Product>> getSearchedProducts(String search) async {
+
+  // }
 }

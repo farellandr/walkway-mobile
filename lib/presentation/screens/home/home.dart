@@ -3,7 +3,7 @@ import 'package:walkway_mobile/domain/models/brand.dart';
 import 'package:walkway_mobile/domain/models/product.dart';
 import 'package:walkway_mobile/domain/services/brand.dart';
 import 'package:walkway_mobile/domain/services/product.dart';
-import 'package:walkway_mobile/presentation/widgets/navbar.dart';
+import 'package:walkway_mobile/presentation/widgets/search_navbar.dart';
 import 'package:walkway_mobile/utils/constants.dart';
 import 'package:walkway_mobile/utils/helpers.dart';
 
@@ -95,12 +95,13 @@ class _HomeState extends State<Home> {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
         shrinkWrap: true,
         children: [
+          const SizedBox(height: 12.0),
           Column(
-            spacing: 16.0,
+            spacing: 10.0,
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
@@ -154,73 +155,175 @@ class _HomeState extends State<Home> {
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        ..._products.map(
-                          (product) => InkWell(
+                    child: IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: List.generate(
+                          _products.length,
+                          (index) => Material(
+                            color: Colors.white,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(6.0),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/product',
+                                  arguments: _products[index],
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(8.0),
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 16,
+                                child: Column(
+                                  spacing: 4.0,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        spacing: 6.0,
+                                        children: [
+                                          Stack(children: [
+                                            ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.network(
+                                                    '$baseUrl/upload/${_products[index].images.first.filename}',
+                                                    fit: BoxFit.cover)),
+                                            Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(Icons
+                                                        .favorite_outline_rounded)))
+                                          ]),
+                                          Text(
+                                              '${_products[index].brand?.name} ${_products[index].name}',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                  fontSize: 14)),
+                                        ]),
+                                    Text(
+                                        Formatter.formatCurrency(
+                                            _products[index].price),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: -0.25)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                child: Image.asset('assets/home-banner-2.png'),
+              ),
+              Column(
+                spacing: 0.0,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Our Collection',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: -0.3),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text('See all',
+                            style: TextStyle(color: Colors.grey[600])),
+                      ),
+                    ],
+                  ),
+                  IntrinsicHeight(
+                    child: Wrap(
+                      children: List.generate(
+                        _products.length,
+                        (index) => Material(
+                          color: Colors.white,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(6.0),
                             onTap: () {
-                              // Provider.of<ProductProvider>(context,
-                              //         listen: false)
-                              //     .setSelectedProduct(product);
-                              // Navigator.pushNamed(context, '/product');
+                              Navigator.pushNamed(
+                                context,
+                                '/product',
+                                arguments: _products[index],
+                              );
                             },
-                            borderRadius: BorderRadius.circular(6),
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 2 - 18,
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
+                              width: MediaQuery.of(context).size.width / 2 - 16,
                               child: Column(
                                 spacing: 4.0,
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          '$baseUrl/upload/${product.images.first.filename}',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 0.0,
-                                        right: 0.0,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.favorite_outline_rounded,
-                                            color: Color(0xff939393),
-                                          ),
-                                          onPressed: () {},
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      spacing: 6.0,
+                                      children: [
+                                        Stack(children: [
+                                          ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                  '$baseUrl/upload/${_products[index].images.first.filename}',
+                                                  fit: BoxFit.cover)),
+                                          Positioned(
+                                              top: 0,
+                                              right: 0,
+                                              child: IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(Icons
+                                                      .favorite_outline_rounded)))
+                                        ]),
+                                        Text(
+                                            '${_products[index].brand?.name} ${_products[index].name}',
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style:
+                                                const TextStyle(fontSize: 14)),
+                                      ]),
                                   Text(
-                                    '${product.brand?.name} ${product.name}',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    Formatter.formatCurrency(product.price),
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
+                                      Formatter.formatCurrency(
+                                          _products[index].price),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: -0.25)),
                                 ],
                               ),
                             ),
                           ),
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   )
                 ],
-              )
+              ),
+              // spacer
+              const SizedBox(height: 12.0),
             ],
           )
         ],
@@ -231,7 +334,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Navbar(),
+      backgroundColor: Colors.white,
+      appBar: const SearchNavbar(),
       body: RefreshIndicator(
         onRefresh: _loadProducts,
         child: _buildContent(),
