@@ -349,7 +349,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const SearchNavbar(),
+      appBar: const SearchNavbar(isButton: true),
       body: RefreshIndicator(
         onRefresh: _loadData,
         child: _buildContent(),

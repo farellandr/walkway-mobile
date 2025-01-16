@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SearchNavbar extends StatelessWidget implements PreferredSizeWidget {
-  const SearchNavbar({super.key});
+  final bool isButton;
+
+  const SearchNavbar({super.key, required this.isButton});
 
   EdgeInsets get padding =>
       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0);
@@ -36,31 +38,45 @@ class SearchNavbar extends StatelessWidget implements PreferredSizeWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 8.0,
               children: [
+                if (!isButton)
+                  IconButton(
+                    icon: const Icon(Icons.west),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
                 Expanded(
-                  child: Container(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (!isButton) return;
+                      Navigator.pushNamed(context, '/search');
+                    },
+                    child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Row(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Row(
                       spacing: 8.0,
-                      children: [
-                        Icon(
-                          Icons.search,
-                          color: Colors.grey[600],
-                        ),
-                        Expanded(
-                          child: TextField(
-                            decoration:
-                                InputDecoration(border: InputBorder.none),
-                          ),
-                        )
-                      ],
+                        children: [
+                            Icon(
+                              Icons.search,
+                              color: Colors.grey[600],
+                            ),
+                          Expanded(
+                            child: TextField(
+                              enabled: !isButton,
+                              decoration:
+                                  InputDecoration(border: InputBorder.none),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                IconButton(
+                if (isButton)
+                  IconButton(
                     icon: const Icon(Icons.shopping_bag_outlined),
                     onPressed: () {})
               ],
@@ -75,3 +91,4 @@ class SearchNavbar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
+
