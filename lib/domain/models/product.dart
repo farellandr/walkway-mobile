@@ -4,6 +4,7 @@ import 'package:walkway_mobile/domain/models/image.dart';
 import 'package:walkway_mobile/domain/models/size.dart';
 
 class Product {
+  final String id;
   final String name;
   final int price;
   final Brand? brand;
@@ -12,6 +13,7 @@ class Product {
   final List<Sizes> sizes;
 
   Product({
+    required this.id,
     required this.name,
     required this.price,
     this.brand,
@@ -22,6 +24,7 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
+      id: json['id'] ?? '',
       name: json['name'] ?? '',
       price: json['price'] ?? 0,
       brand: json['brand'] != null ? Brand.fromJson(json['brand']) : null,

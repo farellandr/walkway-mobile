@@ -1,11 +1,13 @@
 import 'package:walkway_mobile/domain/models/product.dart';
 
 class Sizes {
+  final String id;
   final int size;
   final int stock;
   final Product? product;
 
   Sizes({
+    required this.id,
     required this.size,
     required this.stock,
     this.product,
@@ -13,6 +15,7 @@ class Sizes {
 
   factory Sizes.fromJson(Map<String, dynamic> json) {
     return Sizes(
+      id: json['id'] ?? '',
       size: json['size'] ?? 0,
       stock: json['stock'] ?? 0,
       product:

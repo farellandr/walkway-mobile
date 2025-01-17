@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:walkway_mobile/utils/provider.dart';
 
 class BackNavbar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBack;
@@ -25,6 +26,8 @@ class BackNavbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productStore = Provider.productStore;
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarBrightness:
           Brightness.light, // For iOS: white status bar with dark text/icons
@@ -53,6 +56,7 @@ class BackNavbar extends StatelessWidget implements PreferredSizeWidget {
                       IconButton(
                         icon: const Icon(Icons.west),
                         onPressed: () {
+                          productStore.fetchProducts();
                           Navigator.pop(context);
                         },
                       ),
@@ -76,7 +80,9 @@ class BackNavbar extends StatelessWidget implements PreferredSizeWidget {
                     if (showCart)
                       IconButton(
                           icon: const Icon(Icons.shopping_bag_outlined),
-                          onPressed: () {}),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/cart');
+                          }),
                   ],
                 ),
               ],

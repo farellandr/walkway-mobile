@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walkway_mobile/presentation/widgets/search_navbar.dart';
+import 'package:walkway_mobile/presentation/widgets/wishlist_button.dart';
 import 'package:walkway_mobile/utils/constants.dart';
 import 'package:walkway_mobile/utils/helpers.dart';
 import 'package:walkway_mobile/utils/provider.dart';
@@ -187,10 +188,7 @@ class _HomeState extends State<Home> {
                                                 Positioned(
                                                   top: 0,
                                                   right: 0,
-                                                  child: IconButton(
-                                                    onPressed: () {},
-                                                    icon: const Icon(Icons
-                                                        .favorite_outline_rounded),
+                                                  child: WishlistButton(productId: _productStore.products[index].id,
                                                   ),
                                                 ),
                                               ],
@@ -297,10 +295,9 @@ class _HomeState extends State<Home> {
                                               Positioned(
                                                 top: 0,
                                                 right: 0,
-                                                child: IconButton(
-                                                  onPressed: () {},
-                                                  icon: const Icon(Icons
-                                                      .favorite_outline_rounded),
+                                                child: WishlistButton(
+                                                  productId: _productStore
+                                                      .products[index].id,
                                                 ),
                                               ),
                                             ],
@@ -349,7 +346,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const SearchNavbar(isButton: true),
+      appBar: const SearchNavbar(),
       body: RefreshIndicator(
         onRefresh: _loadData,
         child: _buildContent(),

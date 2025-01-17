@@ -56,6 +56,38 @@ mixin _$ProductStore on _ProductStore, Store {
     });
   }
 
+  late final _$cartIdsAtom =
+      Atom(name: '_ProductStore.cartIds', context: context);
+
+  @override
+  ObservableList<String> get cartIds {
+    _$cartIdsAtom.reportRead();
+    return super.cartIds;
+  }
+
+  @override
+  set cartIds(ObservableList<String> value) {
+    _$cartIdsAtom.reportWrite(value, super.cartIds, () {
+      super.cartIds = value;
+    });
+  }
+
+  late final _$wishlistIdsAtom =
+      Atom(name: '_ProductStore.wishlistIds', context: context);
+
+  @override
+  ObservableList<String> get wishlistIds {
+    _$wishlistIdsAtom.reportRead();
+    return super.wishlistIds;
+  }
+
+  @override
+  set wishlistIds(ObservableList<String> value) {
+    _$wishlistIdsAtom.reportWrite(value, super.wishlistIds, () {
+      super.wishlistIds = value;
+    });
+  }
+
   late final _$fetchProductsAsyncAction =
       AsyncAction('_ProductStore.fetchProducts', context: context);
 
@@ -72,12 +104,55 @@ mixin _$ProductStore on _ProductStore, Store {
     return _$searchProductsAsyncAction.run(() => super.searchProducts(query));
   }
 
+  late final _$fetchProductByIdAsyncAction =
+      AsyncAction('_ProductStore.fetchProductById', context: context);
+
+  @override
+  Future<void> fetchProductById(String id) {
+    return _$fetchProductByIdAsyncAction.run(() => super.fetchProductById(id));
+  }
+
+  late final _$toogleCartAsyncAction =
+      AsyncAction('_ProductStore.toogleCart', context: context);
+
+  @override
+  Future<void> toogleCart(String id) {
+    return _$toogleCartAsyncAction.run(() => super.toogleCart(id));
+  }
+
+  late final _$fetchCartProductsAsyncAction =
+      AsyncAction('_ProductStore.fetchCartProducts', context: context);
+
+  @override
+  Future<void> fetchCartProducts() {
+    return _$fetchCartProductsAsyncAction.run(() => super.fetchCartProducts());
+  }
+
+  late final _$toggleWishlistAsyncAction =
+      AsyncAction('_ProductStore.toggleWishlist', context: context);
+
+  @override
+  Future<void> toggleWishlist(String id) {
+    return _$toggleWishlistAsyncAction.run(() => super.toggleWishlist(id));
+  }
+
+  late final _$fetchWishlistProductsAsyncAction =
+      AsyncAction('_ProductStore.fetchWishlistProducts', context: context);
+
+  @override
+  Future<void> fetchWishlistProducts() {
+    return _$fetchWishlistProductsAsyncAction
+        .run(() => super.fetchWishlistProducts());
+  }
+
   @override
   String toString() {
     return '''
 products: ${products},
 isLoading: ${isLoading},
-error: ${error}
+error: ${error},
+cartIds: ${cartIds},
+wishlistIds: ${wishlistIds}
     ''';
   }
 }
